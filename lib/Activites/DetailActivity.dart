@@ -12,51 +12,73 @@ class ActivityDetailsScreen extends StatelessWidget {
         title: Text('Activity Details'),
         backgroundColor: Colors.purple,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                activityDetails['titre'],
+                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.black),
+              ),
+              SizedBox(height: 20),
+              _buildDetailCard('Lieu', activityDetails['lieu']),
+              _buildDetailCard('Prix', '\$${activityDetails['prix']}'),
+              _buildDetailCard('Nombre Minimum', '${activityDetails['nombreMinimum']}'),
+              _buildDetailCard('Catégorie', activityDetails['categorie']),
+              _buildDetailCard('Date de création', activityDetails['createAt'].toDate().toString()),
+              SizedBox(height: 20),
+              // Display the activity image
+              activityDetails['image'] != null
+                  ? Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 3,
+                            blurRadius: 5,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.network(
+                          activityDetails['image'],
+                          width: double.infinity,
+                          height: 200,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    )
+                  : Container(), // Placeholder if no image available
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDetailCard(String label, String value) {
+    return Card(
+      elevation: 4,
+      margin: EdgeInsets.symmetric(vertical: 8),
+      child: Padding(
+        padding: EdgeInsets.all(12),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 20),
             Text(
-              activityDetails['titre'],
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              label,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.purple),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 8),
             Text(
-              'Lieu: ${activityDetails['lieu']}',
-              style: TextStyle(fontSize: 18),
+              value,
+              style: TextStyle(fontSize: 16, color: Colors.black87),
             ),
-            SizedBox(height: 10),
-            Text(
-              'Prix: \$${activityDetails['prix']}',
-              style: TextStyle(fontSize: 18),
-            ),
-            SizedBox(height: 10),
-            Text(
-              'Nombre Minimum: ${activityDetails['nombreMinimum']}',
-              style: TextStyle(fontSize: 18),
-            ),
-            SizedBox(height: 10),
-            Text(
-              'Catégorie: ${activityDetails['categorie']}',
-              style: TextStyle(fontSize: 18),
-            ),
-            SizedBox(height: 10),
-            Text(
-              'Date de création: ${activityDetails['createAt']}',
-              style: TextStyle(fontSize: 18),
-            ),
-            SizedBox(height: 20),
-            // Display the activity image
-            activityDetails['image'] != null
-                ? Image.network(
-                    activityDetails['image'],
-                    width: 200, // Adjust the width as needed
-                    height: 200, // Adjust the height as needed
-                    fit: BoxFit.cover, // Adjust the fit based on your preference
-                  )
-                : Container(), // Placeholder if no image available
           ],
         ),
       ),
