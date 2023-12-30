@@ -29,10 +29,10 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   // title: Text('Login'),
-      //   backgroundColor: Colors.blue, // Set the color of the app bar
-      // ),
+      appBar: AppBar(
+        title: Text('ActiLife'), // Titre de l'application dans l'AppBar
+        backgroundColor: Colors.blue, // Couleur de la barre d'en-tête
+      ),
       body: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
@@ -46,7 +46,7 @@ class Login extends StatelessWidget {
               return SignInScreen();
             }
           } else {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           }
         },
       ),
